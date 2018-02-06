@@ -25,7 +25,7 @@ $response = array("error" => FALSE);
         //$ar =array("gg"=>"bb");
         echo json_encode($response);
     } else {
-        // user is not found with the credentials
+      
         $response["error"] = TRUE;
         $response["error_msg"] = "error";
         echo json_encode($response);

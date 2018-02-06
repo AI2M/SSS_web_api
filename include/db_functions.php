@@ -320,6 +320,51 @@
 	}
 
 	//customer
+	function getCustomerData($type){
+		global $connection;
+		$query = " ";
+		if($type=="all"){
+			$query = "SELECT *,ShowrromsAndCustomers.showroom_id AS showroom_id  FROM Customers ";
+			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.phone_num = ShowrromsAndCustomers.phone_num ";
+		}
+		elseif($type=="age"){
+			$query = "SELECT age , COUNT(age) AS age_count FROM Customers ";
+			$query.= "GROUP BY age ";
+			$query.= "ORDER BY age_count DESC ";
+		}
+		elseif($type=="sex"){
+			$query = "SELECT sex , COUNT(sex) AS sex_count FROM Customers ";
+			$query.= "GROUP BY sex ";
+			$query.= "ORDER BY sex_count DESC ";
+		}
+		elseif($type=="job"){
+			$query = "SELECT job , COUNT(job) AS job_count FROM Customers ";
+			$query.= "GROUP BY job ";
+			$query.= "ORDER BY job_count DESC ";
+		}
+		elseif($type=="salary"){
+			$query = "SELECT salary , COUNT(salary) AS salary_count FROM Customers ";
+			$query.= "GROUP BY salary ";
+			$query.= "ORDER BY salary_count DESC ";
+		}
+		elseif($type=="showroom_id"){
+			$query = "SELECT ShowrromsAndCustomers.showroom_id,COUNT(ShowrromsAndCustomers.showroom_id) AS counts FROM Customers ";
+			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.phone_num = ShowrromsAndCustomers.phone_num ";
+			$query.= "GROUP BY ShowrromsAndCustomers.showroom_id ORDER BY counts DESC ";
+			
+		}
+		$customers = mysqli_query($connection, $query);
+		$data = array();
+		if($customers){
+			while ($res = mysqli_fetch_assoc($customers)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+	}
 
 
 
