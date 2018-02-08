@@ -365,6 +365,39 @@
 			return false;
 		}
 	}
+	//transactions
+
+	function getTransactionData($type){
+		global $connection;
+		$query = " ";
+		if($type=="last7"){
+			$query = "SELECT * FROM Transactions WHERE datetime BETWEEN current_date()-7 AND current_date() ";
+		}
+		elseif($type=="thismonth"){
+			$query = "SELECT * FROM Transactions WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
+			$query.= "AND YEAR(date) = YEAR(CURRENT_DATE()) ";
+		}
+		elseif($type=="thisyear"){
+			$query = "SELECT * FROM Transactions WHERE YEAR(datetime) = YEAR(CURRENT_DATE()) ";
+		}
+		elseif($type=="all"){
+			$query = "SELECT * FROM Transactions ";
+		}
+
+		$transactions = mysqli_query($connection, $query);
+		$data = array();
+		if($transactions){
+			while ($res = mysqli_fetch_assoc($transactions)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+
+
+	}
 
 
 
