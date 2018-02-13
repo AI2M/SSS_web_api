@@ -10,7 +10,7 @@ $postdata = json_decode($postdata);
 // exit();
  
 if (isset($postdata->showroom_id) && isset($postdata->location) && isset($postdata->region)&& isset($postdata->password)
-&& isset($postdata->detail)) {
+&& isset($postdata->detail)&& isset($postdata->latitude)&& isset($postdata->longitude)) {
  
     // receiving the post params
     $showroom_id = $postdata->showroom_id;
@@ -18,9 +18,11 @@ if (isset($postdata->showroom_id) && isset($postdata->location) && isset($postda
     $region = $postdata->region;
     $password = $postdata->password;
     $detail = $postdata->detail;
+    $latitude = $postdata->latitude;
+    $longitude = $postdata->longitude;
 
         // create a new user
-        $showroom = putShowroomData($showroom_id, $location, $region, $password, $detail);
+        $showroom = putShowroomData($showroom_id, $location, $region, $password, $detail, $latitude,$longitude);
         if ($showroom) {
             
             $response = array();

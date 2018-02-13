@@ -172,9 +172,9 @@
 			return false;
 		}
 	}
-	function putShowroomData($showroom_id, $location, $region, $password, $detail){
+	function putShowroomData($showroom_id, $location, $region, $password, $detail, $latitude, $longitude){
 		global $connection;
-		$query = "UPDATE Showrooms SET location= '{$location}',region= ' {$region}' ,password='{$password}', detail= '{$detail}' ";
+		$query = "UPDATE Showrooms SET location= '{$location}',region= ' {$region}' ,password='{$password}', detail= '{$detail}', latitude= '{$latitude}', longitude= '{$longitude}' ";
 		$query.= "WHERE showroom_id = '{$showroom_id}'"; 
 
 		$result = mysqli_query($connection, $query);
@@ -197,11 +197,11 @@
 			}
 	}
 
-	function postShowroomData($showroom_id, $location, $region, $password, $detail){
+	function postShowroomData($showroom_id, $location, $region, $password, $detail, $latitude, $longitude){
 		global $connection;
 		$query = "INSERT INTO Showrooms(";
-		$query .= "showroom_id, location, region, password, detail) ";
-		$query .= "VALUES('{$showroom_id}', '{$location}','{$region}','{$password}','{$detail}')";
+		$query .= "showroom_id, location, region, password, detail, latitude, longitude) ";
+		$query .= "VALUES('{$showroom_id}', '{$location}','{$region}','{$password}','{$detail}','{$latitude}','{$longitude}')";
 		$result = mysqli_query($connection, $query);
 		$data = array();
 
@@ -375,7 +375,7 @@
 		}
 		elseif($type=="thismonth"){
 			$query = "SELECT * FROM Transactions WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
-			$query.= "AND YEAR(date) = YEAR(CURRENT_DATE()) ";
+			$query.= "AND YEAR(datetime) = YEAR(CURRENT_DATE()) ";
 		}
 		elseif($type=="thisyear"){
 			$query = "SELECT * FROM Transactions WHERE YEAR(datetime) = YEAR(CURRENT_DATE()) ";
