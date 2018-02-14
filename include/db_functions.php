@@ -381,9 +381,30 @@
 			$query = "SELECT * FROM Transactions WHERE YEAR(datetime) = YEAR(CURRENT_DATE()) ";
 		}
 		elseif($type=="all"){
-			$query = "SELECT * FROM Transactions ";
+			$query = "SELECT * FROM Transactions ORDER BY datetime DESC" ;
 		}
 
+		$transactions = mysqli_query($connection, $query);
+		$data = array();
+		if($transactions){
+			while ($res = mysqli_fetch_assoc($transactions)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+
+
+	}
+
+	//transactionsMap
+	function getTransactionMapData(){
+		global $connection;
+		$query = "SELECT Transactions.showroom_id, COUNT(Transactions.showroom_id) as count ,Showrooms.latitude,Showrooms.longitude ";
+		$query.= "FROM `Transactions`  INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id GROUP BY showroom_id ";
+		
 		$transactions = mysqli_query($connection, $query);
 		$data = array();
 		if($transactions){
