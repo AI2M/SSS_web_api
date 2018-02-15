@@ -172,6 +172,21 @@
 			return false;
 		}
 	}
+	function getShowroomDataByid($showroom_id){
+		global $connection;
+		$query = "SELECT * from Showrooms WHERE showroom_id=$showroom_id";
+		$showrooms = mysqli_query($connection, $query);
+		$data = array();
+		if($showrooms){
+			while ($res = mysqli_fetch_assoc($showrooms)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+	}
 	function putShowroomData($showroom_id, $location, $region, $password, $detail, $latitude, $longitude){
 		global $connection;
 		$query = "UPDATE Showrooms SET location= '{$location}',region= ' {$region}' ,password='{$password}', detail= '{$detail}', latitude= '{$latitude}', longitude= '{$longitude}' ";
@@ -418,6 +433,26 @@
 		}
 
 
+	}
+
+	//showroomandmusicbox
+	function getMandSData($showroom_id){
+		global $connection;
+		$query ="SELECT * FROM ShowroomsAndMusicBoxs  ";
+		$query.="INNER JOIN MusicBoxs on ShowroomsAndMusicBoxs.music_box_id=MusicBoxs.music_box_id ";
+		$query.="WHERE showroom_id = $showroom_id";
+
+		$m_and_s = mysqli_query($connection, $query);
+		$data = array();
+		if($m_and_s){
+			while ($res = mysqli_fetch_assoc($m_and_s)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
 	}
 
 
