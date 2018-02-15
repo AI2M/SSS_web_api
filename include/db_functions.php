@@ -440,7 +440,7 @@
 		global $connection;
 		$query ="SELECT * FROM ShowroomsAndMusicBoxs  ";
 		$query.="INNER JOIN MusicBoxs on ShowroomsAndMusicBoxs.music_box_id=MusicBoxs.music_box_id ";
-		$query.="WHERE showroom_id = $showroom_id";
+		$query.="WHERE showroom_id = $showroom_id ORDER BY position ASC";
 
 		$m_and_s = mysqli_query($connection, $query);
 		$data = array();
@@ -453,6 +453,24 @@
 		else{
 			return false;
 		}
+	}
+	function putMandSData($showroom_id,$m1,$m2,$m3,$m4,$m5,$m6,$m7,$m8,$m9){
+		global $connection;
+		$query = "DELETE FROM ShowroomsAndMusicBoxs WHERE showroom_id = '{$showroom_id}'";
+		$result = mysqli_query($connection, $query);
+
+		$query = "INSERT INTO ShowroomsAndMusicBoxs (`showroom_id`, `music_box_id`, `position`) ";
+		$query.= "VALUES ($showroom_id,$m1,1),($showroom_id,$m2,2),($showroom_id,$m3,3) ";
+		$query.= ",($showroom_id,$m4,4),($showroom_id,$m5,5),($showroom_id,$m6,6) ";
+		$query.= ",($showroom_id,$m7,7),($showroom_id,$m8,8),($showroom_id,$m9,9)";
+		$result = mysqli_query($connection, $query);
+		if($result){
+			return $result;
+		}
+		else{
+			return false;
+		}
+
 	}
 
 

@@ -6,8 +6,9 @@ require_once 'include/db_functions.php';
 $response = array("error" => FALSE);
 $postdata = file_get_contents("php://input");
 $postdata = json_decode($postdata);
-// echo $postdata->showroom_id;
-// exit();
+//echo "aaaaa"; 
+//echo $postdata;
+ //exit();
  
 if (isset($postdata->showroom_id) && isset($postdata->location) && isset($postdata->region)&& isset($postdata->password)
 && isset($postdata->detail)&& isset($postdata->latitude)&& isset($postdata->longitude)) {
