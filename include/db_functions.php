@@ -143,7 +143,7 @@
 
 	function phoneExists($phone_num){
 		global $connection;
-		$query = "SELECT * from Customer where phone_num = '{$phone_num}'";
+		$query = "SELECT * from Customers where phone_num = '{$phone_num}'";
 
 		$result = mysqli_query($connection, $query);
 
@@ -471,6 +471,35 @@
 			return false;
 		}
 
+	}
+	//---------------------application----------------------------//
+
+	function AppStoreCustomerData($phone_num, $age, $sex, $salary, $job, $showroom_id){
+		global $connection;
+		$query = "INSERT INTO Customers(";
+		$query .= "phone_num, age, sex, salary, job) ";
+		$query .= "VALUES('{$phone_num}', '{$age}','{$sex}','{$salary}','{$job}')";
+		$result = mysqli_query($connection, $query);
+		
+		$query2 = "INSERT INTO ShowrromsAndCustomers (phone_num,showroom_id) ";
+		$query2.= "VALUES ('{$phone_num}','{$showroom_id}') ";
+		$result2 = mysqli_query($connection, $query2);
+
+		if($result && $result2){
+			return true;
+			// $query3 = "SELECT * FROM ShowrromsAndCustomers  WHERE phone_num = $phone_num ";
+			// $result3 = mysqli_query($connection, $query3);
+			// $data = array();
+			// 	if($result3){
+			// 		while ($res = mysqli_fetch_assoc($result3)){
+			// 		array_push($data,$res);
+			// 	}
+			// return $data;
+			// }
+		}
+		else{
+			return false;
+		}
 	}
 
 
