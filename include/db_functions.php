@@ -502,6 +502,20 @@
 		}
 	}
 
+	function AppStoreTransactionData($datetime, $showroom_id, $music_box_id, $position){
+		global $connection;
+		$query = "INSERT INTO Transactions(";
+		$query .= "datetime, showroom_id, music_box_id, position) ";
+		$query .= "VALUES('{$datetime}', '{$showroom_id}','{$music_box_id}','{$position}')";
+		$result = mysqli_query($connection, $query);
+		if($result){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
 
 
 ?>
