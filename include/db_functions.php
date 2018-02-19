@@ -386,7 +386,7 @@
 		global $connection;
 		$query = " ";
 		if($type=="last7"){
-			$query = "SELECT * FROM Transactions WHERE datetime BETWEEN current_date()-7 AND current_date() ";
+			$query = "SELECT * FROM Transactions WHERE datetime BETWEEN current_date()-6 AND current_date()+1 ";
 		}
 		elseif($type=="thismonth"){
 			$query = "SELECT * FROM Transactions WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
@@ -510,6 +510,22 @@
 		$result = mysqli_query($connection, $query);
 		if($result){
 			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	function getShowroomByIdAndPassword($showroom_id, $password){
+		global $connection;
+		$query = "SELECT * FROM Showrooms WHERE (showroom_id = $showroom_id AND password = $password) ";
+		$result = mysqli_query($connection, $query);
+		$data = array();
+		if($result){
+			while ($res = mysqli_fetch_assoc($result)){
+				array_push($data,$res);
+			}
+			return $data;
 		}
 		else{
 			return false;
