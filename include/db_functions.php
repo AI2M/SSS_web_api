@@ -341,6 +341,7 @@
 		if($type=="all"){
 			$query = "SELECT *,ShowrromsAndCustomers.showroom_id AS showroom_id  FROM Customers ";
 			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.phone_num = ShowrromsAndCustomers.phone_num ";
+			$query.= "INNER JOIN Showrooms on Showrooms.showroom_id = ShowrromsAndCustomers.showroom_id ";
 		}
 		elseif($type=="age"){
 			$query = "SELECT age , COUNT(age) AS age_count FROM Customers ";
@@ -386,17 +387,18 @@
 		global $connection;
 		$query = " ";
 		if($type=="last7"){
-			$query = "SELECT * FROM Transactions WHERE datetime BETWEEN current_date()-6 AND current_date()+1 ";
+			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id ";
+			$query.= "WHERE datetime BETWEEN current_date()-6 AND current_date()+1 ";
 		}
 		elseif($type=="thismonth"){
-			$query = "SELECT * FROM Transactions WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
+			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
 			$query.= "AND YEAR(datetime) = YEAR(CURRENT_DATE()) ";
 		}
 		elseif($type=="thisyear"){
-			$query = "SELECT * FROM Transactions WHERE YEAR(datetime) = YEAR(CURRENT_DATE()) ";
+			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id WHERE YEAR(datetime) = YEAR(CURRENT_DATE()) ";
 		}
 		elseif($type=="all"){
-			$query = "SELECT * FROM Transactions ORDER BY datetime DESC" ;
+			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id ORDER BY datetime DESC" ;
 		}
 
 		$transactions = mysqli_query($connection, $query);
@@ -417,7 +419,7 @@
 	//transactionsMap
 	function getTransactionMapData(){
 		global $connection;
-		$query = "SELECT Transactions.showroom_id, COUNT(Transactions.showroom_id) as count ,Showrooms.latitude,Showrooms.longitude ";
+		$query = "SELECT Transactions.showroom_id, COUNT(Transactions.showroom_id) as count ,Showrooms.latitude,Showrooms.longitude, Showrooms.location ";
 		$query.= "FROM `Transactions`  INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id GROUP BY showroom_id ";
 		
 		$transactions = mysqli_query($connection, $query);
