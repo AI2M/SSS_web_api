@@ -1,6 +1,7 @@
 <?php
  
 require_once 'include/db_functions.php';
+header('Access-Control-Allow-Origin: *');
  
 // json response array
 $response = array("error" => FALSE);
