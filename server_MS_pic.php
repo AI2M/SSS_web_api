@@ -3,7 +3,7 @@ if ( !empty( $_FILES ) ) {
 
     $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];
 
-    $target = "/Applications/XAMPP/xamppfiles/image/";
+    $target = "/Applications/XAMPP/xamppfiles/images/music_boxes/";
     $target = $target . basename($_FILES['file']['name']);
 
     move_uploaded_file( $tempPath, $target );

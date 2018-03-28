@@ -13,10 +13,12 @@ $response = array("error" => FALSE);
 // $showroom_id = $_POST["showroom_id"]="3";
 
  
-if (isset($_POST['phone_num']) && isset($_POST['age']) && isset($_POST['sex'])&& isset($_POST['salary'])
-&& isset($_POST['job'])&& isset($_POST['showroom_id'])) {
+if (isset($_POST['phone_num'])&& isset($_POST['facebook'])  && isset($_POST['age']) && isset($_POST['sex'])&& isset($_POST['salary'])
+&& isset($_POST['job'])&& isset($_POST['showroom_id'])&&isset($_POST['customer_id'])) {
  
     // receiving the post params
+    $customer_id=$_POST['customer_id'];
+    $facebook=$_POST['facebook'];
     $phone_num = $_POST['phone_num'];
 	$age = $_POST['age'];
     $sex = $_POST["sex"];
@@ -25,14 +27,9 @@ if (isset($_POST['phone_num']) && isset($_POST['age']) && isset($_POST['sex'])&&
     $showroom_id = $_POST["showroom_id"];
  
     // check if user already exists with the same email
-    if(phoneExists($phone_num)){
-		// email already exists
-        $response["error"] = TRUE;
-        $response["error_msg"] = "phone_num already exists with " . $phone_num;
-        echo json_encode($response);
-	}else {
+  
         // create a new user
-        $customer = AppStoreCustomerData($phone_num, $age, $sex, $salary, $job, $showroom_id);
+        $customer = AppStoreCustomerData($phone_num,$facebook, $age, $sex, $salary, $job, $showroom_id,$customer_id);
         if ($customer) {
             // user stored successfully
             $response = array();
@@ -46,7 +43,7 @@ if (isset($_POST['phone_num']) && isset($_POST['age']) && isset($_POST['sex'])&&
             $response["error_msg"] = "Unknown error occurred!";
             echo json_encode($response);
         }
-    }
+    
 } else {
     $response["error"] = TRUE;
     $response["error_msg"] = "Required parameters missing!";

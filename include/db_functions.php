@@ -23,12 +23,12 @@
 
 	}
 
-	function storeCustomer($phone_num, $age, $sex, $salary, $job, $showroom_id){
+	function storeCustomer($phone_num, $facebook, $age, $sex, $salary, $job, $showroom_id){
 		global $connection;
 		
 		$query = "INSERT INTO Customer(";
-		$query .= "phone_num, age, sex, salary, job, showroom_id) ";
-		$query .= "VALUES('{$phone_num}', '{$age}','{$sex}','{$salary}','{$job}','{$showroom_id}')";
+		$query .= "phone_num,facebook,age, sex, salary, job, showroom_id) ";
+		$query .= "VALUES('{$phone_num}',{$facebook}','{$age}','{$sex}','{$salary}','{$job}','{$showroom_id}')";
 
 		$result = mysqli_query($connection, $query);
 
@@ -340,7 +340,7 @@
 		$query = " ";
 		if($type=="all"){
 			$query = "SELECT *,ShowrromsAndCustomers.showroom_id AS showroom_id  FROM Customers ";
-			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.phone_num = ShowrromsAndCustomers.phone_num ";
+			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.customer_id = ShowrromsAndCustomers.customer_id ";
 			$query.= "INNER JOIN Showrooms on Showrooms.showroom_id = ShowrromsAndCustomers.showroom_id ";
 		}
 		elseif($type=="age"){
@@ -365,7 +365,7 @@
 		}
 		elseif($type=="showroom_id"){
 			$query = "SELECT ShowrromsAndCustomers.showroom_id,COUNT(ShowrromsAndCustomers.showroom_id) AS counts FROM Customers ";
-			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.phone_num = ShowrromsAndCustomers.phone_num ";
+			$query.= "INNER JOIN ShowrromsAndCustomers on Customers.customer_id = ShowrromsAndCustomers.customer_id ";
 			$query.= "GROUP BY ShowrromsAndCustomers.showroom_id ORDER BY counts DESC ";
 			
 		}
@@ -476,15 +476,15 @@
 	}
 	//---------------------application----------------------------//
 
-	function AppStoreCustomerData($phone_num, $age, $sex, $salary, $job, $showroom_id){
+	function AppStoreCustomerData($phone_num,$facebook ,$age, $sex, $salary, $job, $showroom_id,$customer_id){
 		global $connection;
 		$query = "INSERT INTO Customers(";
-		$query .= "phone_num, age, sex, salary, job) ";
-		$query .= "VALUES('{$phone_num}', '{$age}','{$sex}','{$salary}','{$job}')";
+		$query .= "customer_id,phone_num,facebook,age, sex, salary, job) ";
+		$query .= "VALUES('{$customer_id}','{$phone_num}', '{$facebook}', '{$age}','{$sex}','{$salary}','{$job}')";
 		$result = mysqli_query($connection, $query);
 		
-		$query2 = "INSERT INTO ShowrromsAndCustomers (phone_num,showroom_id) ";
-		$query2.= "VALUES ('{$phone_num}','{$showroom_id}') ";
+		$query2 = "INSERT INTO ShowrromsAndCustomers (customer_id,showroom_id) ";
+		$query2.= "VALUES ('{$customer_id}','{$showroom_id}') ";
 		$result2 = mysqli_query($connection, $query2);
 
 		if($result && $result2){
@@ -533,6 +533,39 @@
 			return false;
 		}
 	}
+	//login web
+	function loginWeb($username, $password){
+		global $connection;
+		$query = "SELECT * FROM Users WHERE (username = '$username' AND password = '$password') ";
+		$result = mysqli_query($connection, $query);
+		$data = array();
+		if($result){
+			while ($res = mysqli_fetch_assoc($result)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+	}
+
+	function loginWebManage($showroom_id, $password){
+		global $connection;
+		$query = "SELECT * FROM Showrooms WHERE (showroom_id = '$showroom_id' AND password = '$password') ";
+		$result = mysqli_query($connection, $query);
+		$data = array();
+		if($result){
+			while ($res = mysqli_fetch_assoc($result)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+	}
+
 
 
 
