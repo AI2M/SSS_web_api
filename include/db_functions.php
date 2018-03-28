@@ -388,7 +388,7 @@
 		$query = " ";
 		if($type=="last7"){
 			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id ";
-			$query.= "WHERE datetime BETWEEN (CURRENT_DATE - INTERVAL '6' DAY) AND CURRENT_DATE ";
+			$query.= "WHERE datetime BETWEEN (CURRENT_TIMESTAMP - INTERVAL '6' DAY) AND CURRENT_TIMESTAMP  ";
 		}
 		elseif($type=="thismonth"){
 			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
