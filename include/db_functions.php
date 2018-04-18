@@ -416,6 +416,25 @@
 
 	}
 
+	function getMultiChartData($showroom1,$showroom2,$showroom3){
+		global $connection;
+		$query = "SELECT * , count(music_box_id) as Cnum FROM `Transactions` WHERE showroom_id =$showroom1 or  showroom_id =$showroom2  or showroom_id =$showroom3 ";
+		$query.= "group by showroom_id,music_box_id order by  showroom_id desc,count(music_box_id) desc ";
+
+		$chart = mysqli_query($connection, $query);
+		$data = array();
+		if($chart){
+			while ($res = mysqli_fetch_assoc($chart)){
+				array_push($data,$res);
+			}
+			return $data;
+		}
+		else{
+			return false;
+		}
+		
+	}
+
 	//transactionsMap
 	function getTransactionMapData(){
 		global $connection;
