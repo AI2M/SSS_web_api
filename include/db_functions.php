@@ -388,7 +388,7 @@
 		$query = " ";
 		if($type=="last7"){
 			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id ";
-			$query.= "WHERE datetime BETWEEN (CURRENT_TIMESTAMP - INTERVAL '6' DAY) AND CURRENT_TIMESTAMP  ";
+			$query.= "WHERE datetime BETWEEN (CURRENT_TIMESTAMP - INTERVAL '6' DAY) AND CURRENT_TIMESTAMP ";
 		}
 		elseif($type=="thismonth"){
 			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id WHERE MONTH(datetime) = MONTH(CURRENT_DATE()) ";
@@ -398,7 +398,7 @@
 			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id WHERE YEAR(datetime) = YEAR(CURRENT_DATE()) ";
 		}
 		elseif($type=="all"){
-			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id ORDER BY datetime DESC" ;
+			$query = "SELECT * FROM Transactions INNER JOIN Showrooms on Transactions.showroom_id = Showrooms.showroom_id INNER JOIN MusicBoxs on Transactions.music_box_id = MusicBoxs.music_box_id ORDER BY datetime DESC" ;
 		}
 
 		$transactions = mysqli_query($connection, $query);
